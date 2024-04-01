@@ -39,7 +39,10 @@ namespace UrbanStore.Domain.Model
         }
         private void ValidateName(string name)
         {
-            DomainExceptionValidation.ExceptionHandler(string.IsNullOrEmpty(name), "Invalid Name. Name is required!");
+            if (string.IsNullOrEmpty(name))
+                DomainExceptionValidation.ExceptionHandler(true, "Invalid name. Name is required!");
+            if (name.Length > 30)
+                DomainExceptionValidation.ExceptionHandler(true, "Too long name.");
         }
         private void ValidateEmail(string email)
         {

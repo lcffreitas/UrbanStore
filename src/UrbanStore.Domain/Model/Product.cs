@@ -16,14 +16,14 @@ namespace UrbanStore.Domain.Model
         public int Stock { get; set; }
         public string Image { get; set; }
         public bool IsActive { get; set; } = true;
-        public Guid BrandId { get; set; }
-        public Guid CategoryId { get; set; }
+        public Brand BrandId { get; set; }
+        public Category CategoryId { get; set; }
 
-        public Product(string name, string description, decimal price, int stock, string image, Guid brandId, Guid categoryId)
+        public Product(string name, string description, decimal price, int stock, string image, Brand brandId, Category categoryId)
         {
             ValidateAndSetValues(name, description, price, stock, image, brandId, categoryId);
         }
-        private void ValidateAndSetValues(string name, string description, decimal price, int stock, string image, Guid brandId, Guid categoryId)
+        private void ValidateAndSetValues(string name, string description, decimal price, int stock, string image, Brand brandId, Category categoryId)
         {
             ValidateName(name);
             ValidateDescription(description);
@@ -43,11 +43,17 @@ namespace UrbanStore.Domain.Model
         }
         private void ValidateName(string name)
         {
-            DomainExceptionValidation.ExceptionHandler(string.IsNullOrEmpty(name), "Invalid Name. Name is required!");
+            if (string.IsNullOrEmpty(name))
+                DomainExceptionValidation.ExceptionHandler(true, "Invalid name. Name is required!");
+            if (name.Length > 30)
+                DomainExceptionValidation.ExceptionHandler(true, "Too long name.");
         }
         private void ValidateDescription(string description)
         {
-            DomainExceptionValidation.ExceptionHandler(string.IsNullOrEmpty(description), "Invalid Description. Description is required!");
+            if (string.IsNullOrEmpty(description))
+                DomainExceptionValidation.ExceptionHandler(true, "Invalid description. Description is required!");
+            if (description.Length > 500)
+                DomainExceptionValidation.ExceptionHandler(true, "Too long description.");
         }
         private void ValidatePrice(decimal price)
         {
@@ -61,13 +67,13 @@ namespace UrbanStore.Domain.Model
         {
             DomainExceptionValidation.ExceptionHandler(string.IsNullOrEmpty(image), "Invalid Image. Image is required!");
         }
-        private void ValidateBrandId(Guid brandId)
+        private void ValidateBrandId(Brand brandId)
         {
-            DomainExceptionValidation.ExceptionHandler(brandId == Guid.Empty, "Invalid Brand. Brand is required!");
+            DomainExceptionValidation.ExceptionHandler(brandId == null, "Invalid Brand. Brand is required!");
         }
-        private void ValidateCategoryId(Guid categoryId)
+        private void ValidateCategoryId(Category categoryId)
         {
-            DomainExceptionValidation.ExceptionHandler(categoryId == Guid.Empty, "Invalid Category. Category is required!");
+            DomainExceptionValidation.ExceptionHandler(categoryId == null, "Invalid Category. Category is required!");
         }
     }
 }

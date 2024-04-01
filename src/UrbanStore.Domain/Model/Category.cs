@@ -26,8 +26,10 @@ namespace UrbanStore.Domain.Model
         }
         private void ValidateDescription(string description)
         {
-            DomainExceptionValidation.ExceptionHandler(string.IsNullOrEmpty(description),"Invalid Description. Description is required!");
-            DomainExceptionValidation.ExceptionHandler(description.Length > 20, "Too long description.");
+            if (string.IsNullOrEmpty(description))
+                DomainExceptionValidation.ExceptionHandler(true, "Invalid description. Description is required!");
+            if (description.Length > 20)
+                DomainExceptionValidation.ExceptionHandler(true, "Too long description.");
         }
     }
 }
