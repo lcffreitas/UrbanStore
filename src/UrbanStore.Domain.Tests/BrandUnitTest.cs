@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions;
 using UrbanStore.Domain.Model;
 using UrbanStore.Domain.Validations;
 
@@ -10,6 +9,7 @@ namespace UrbanStore.Domain.Tests
 {
     public class BrandUnitTest
     {
+        // Name test
         [Fact]
         public void WhenName_IsEmptyOrNullDomain_ShouldReturnDomainException()
         {
@@ -27,6 +27,15 @@ namespace UrbanStore.Domain.Tests
 
             brand.Should().Throw<DomainExceptionValidation>()
             .WithMessage("Too long name.");
+        }
+        // Image test
+        [Fact]
+        public void WhenImage_IsEmptyOrNullDomain_ShouldReturnDomainException()
+        {
+            Action brand = () => new Brand("TestName","");
+
+            brand.Should().Throw<DomainExceptionValidation>()
+            .WithMessage("Invalid Image. Image is required!");
         }
 
     }

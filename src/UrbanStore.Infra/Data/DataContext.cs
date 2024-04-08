@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using UrbanStore.Domain.Model;
+using UrbanStore.Infra.Data.Configurations;
 
 namespace UrbanStore.Infra.Data
 {
@@ -20,76 +21,11 @@ namespace UrbanStore.Infra.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Brand>()
-                .Property(b => b.Name)
-                .IsRequired()
-                .HasMaxLength(30);
-
-            modelBuilder.Entity<Brand>()
-                .Property(b => b.Image)
-                .IsRequired();
-
-            modelBuilder.Entity<Category>()
-                .Property(c => c.Description)
-                .IsRequired()
-                .HasMaxLength(20);
-
-            modelBuilder.Entity<Product>()
-                .Property(p => p.Name)
-                .IsRequired()
-                .HasMaxLength(30);
-            
-            modelBuilder.Entity<Product>()
-                .Property(p => p.Description)
-                .IsRequired()
-                .HasMaxLength(500);
-
-            modelBuilder.Entity<Product>()
-                .Property(p => p.Price)
-                .IsRequired();
-
-            modelBuilder.Entity<Product>()
-                .Property(p => p.Stock)
-                .IsRequired();
-
-            modelBuilder.Entity<Product>()
-                .Property(p => p.Image)
-                .IsRequired();
-
-            modelBuilder.Entity<Product>()
-                .HasOne(p => p.BrandId)
-                .WithMany()
-                .HasForeignKey(p => p.BrandId);
-            
-            modelBuilder.Entity<Product>()
-                .HasOne(p => p.CategoryId)
-                .WithMany()
-                .HasForeignKey(p => p.CategoryId);
-
-            modelBuilder.Entity<User>()
-                .Property(u => u.Name)
-                .IsRequired()
-                .HasMaxLength(30);
-
-            modelBuilder.Entity<User>()
-                .Property(u => u.Email)
-                .IsRequired();
-
-            modelBuilder.Entity<User>()
-                .Property(u => u.Password)
-                .IsRequired();
-
-            modelBuilder.Entity<User>()
-                .Property(u => u.PhoneNumber)
-                .IsRequired();
-
-            modelBuilder.Entity<User>()
-                .Property(u => u.BirthDate)
-                .IsRequired();
-
-            modelBuilder.Entity<User>()
-                .Property(u => u.CPF)
-                .IsRequired();
+            modelBuilder.ApplyConfiguration(new BrandConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

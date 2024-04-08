@@ -12,12 +12,9 @@ namespace UrbanStore.Domain.Model
     {
         public string Name { get; private set; }
         public string Image { get; private set; }
+        public List<Product> Products { get; private set; }
 
         public Brand(string name, string image)
-        {
-            ValidateAndSetValues(name, image);
-        }
-        private void ValidateAndSetValues(string name, string image)
         {
             ValidateName(name);
             ValidateImage(image);

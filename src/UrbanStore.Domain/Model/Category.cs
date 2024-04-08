@@ -12,12 +12,9 @@ namespace UrbanStore.Domain.Model
     {
         public string Description { get; private set; }
         public bool IsActive { get; private set; } = true;
+        public List<Product> Products { get; private set; }
 
         public Category(string description, bool isActive)
-        {
-            ValidateAndSetValues(description, isActive);
-        }
-        private void ValidateAndSetValues(string description, bool isActive)
         {
             ValidateDescription(description);
 

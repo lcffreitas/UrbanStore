@@ -10,18 +10,14 @@ namespace UrbanStore.Domain.Model
 {
     public sealed class User : EntityBase
     {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string PhoneNumber { get; set; }
-        public DateTime BirthDate { get; set; }
-        public string CPF { get; set; }
+        public string Name { get; private set; }
+        public string Email { get; private set; }
+        public string Password { get; private set; }
+        public string PhoneNumber { get; private set; }
+        public DateTime BirthDate { get; private set; }
+        public string Cpf { get; private set; }
 
         public User(string name, string email, string password, string phoneNumber, DateTime birthDate, string cpf)
-        {
-            ValidateAndSetValues(name, email, password, phoneNumber, birthDate, cpf);
-        }
-        private void ValidateAndSetValues(string name, string email, string password, string phoneNumber, DateTime birthDate, string cpf)
         {
             ValidateName(name);
             ValidateEmail(email);
@@ -35,7 +31,7 @@ namespace UrbanStore.Domain.Model
             Password = password;
             PhoneNumber = phoneNumber;
             BirthDate = birthDate;
-            CPF = cpf;
+            Cpf = cpf;
         }
         private void ValidateName(string name)
         {
@@ -62,7 +58,10 @@ namespace UrbanStore.Domain.Model
         }
         private void ValidateCPF(string cpf)
         {
-            DomainExceptionValidation.ExceptionHandler(string.IsNullOrEmpty(cpf), "Invalid CPF. CPF is required!");
+            if (string.IsNullOrEmpty(cpf))
+                DomainExceptionValidation.ExceptionHandler(true, "Invalid CPF. CPF is required!");
+            if (cpf.Length > 11)
+                DomainExceptionValidation.ExceptionHandler(true, "CPF must have 11 characteres.");
         }
     }
 }
